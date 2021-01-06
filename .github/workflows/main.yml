@@ -34,8 +34,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: nightly-tag-${{ steps.date.outputs.date }}
-          release_name: nightl-release-${{ steps.date.outputs.date }}
+          tag_name: nightly-tag-${{env.name}}
+          release_name: nightl-release-${{ env.name }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
