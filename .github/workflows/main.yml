@@ -34,7 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: nightly-tag-${{env.name}}
+          tag_name: nightly
           release_name: nightly-release-${{ env.name }}
           draft: false
           prerelease: false
