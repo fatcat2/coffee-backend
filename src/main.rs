@@ -69,6 +69,35 @@ fn increment_coffee() -> Result<bool, postgres::Error> {
     return Ok(true);
 }
 
+fn coffee_count_today() -> Result<i32, postgres::Error> {
+    let postgres_username: &str =
+        &env::var("POSTGRES_USERNAME").expect("MISSING POSTGRES USERNAME ENV VAR");
+    let postgres_password: &str =
+        &env::var("POSTGRES_PASSWORD").expect("MISSING POSTGRES PASSWORD ENV VAR");
+    let postgres_database: &str =
+        &env::var("POSTGRES_DATABASE").expect("MISSING POSTGRES DATABASE ENV VAR");
+    let postgres_host: &str = &env::var("POSTGRES_HOST").expect("MISSING POSTGRES HOST ENV VAR");
+
+    let mut client = Client::configure()
+        .user(postgres_username)
+        .password(postgres_password)
+        .dbname(postgres_database)
+        .host(postgres_host)
+        .connect(NoTls)?;
+
+    let postgres_statement =
+        client.prepare("select cups::INT from coffee_data where day=current_date")?;
+    let coffee_days: i32 = match client.query_one(&postgres_statement, &[]) {
+        Ok(row) => row.get(0),
+        Err(e) => {
+            println!("{:?}", e);
+            0
+        }
+    };
+
+    return Ok(coffee_days);
+}
+
 fn data_dump() -> Result<Vec<CoffeeDay>, postgres::Error> {
     let postgres_username: &str = &env::var("POSTGRES_USERNAME").expect("MISSING POSTGRES USERNAME ENV VAR");
     let postgres_password: &str = &env::var("POSTGRES_PASSWORD").expect("MISSING POSTGRES PASSWORD ENV VAR");
