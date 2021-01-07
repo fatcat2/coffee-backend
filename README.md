@@ -1,5 +1,5 @@
 # coffee backend
-![CI](https://github.com/fatcat2/coffee-backend/workflows/CI/badge.svg)
+![Release](https://github.com/fatcat2/coffee-backend/workflows/Release/badge.svg)
 
 
 This is the server side of my coffee tracker. It's written in Rust and uses warp and postgres.
